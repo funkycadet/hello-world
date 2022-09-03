@@ -21,7 +21,7 @@ jobs:
           name: "Run pylint"
           command: |
             . env/bin/activate
-            pylint app.py
+            pycodestyle app.py
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
