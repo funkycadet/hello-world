@@ -56,8 +56,8 @@ jobs:
             command: |
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a smith2eric-hello-world web
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a smith2eric-hello-world web
+              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push web
+              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release web
 workflows:
   lint-test-build-deploy:
     jobs:
