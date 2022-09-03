@@ -29,24 +29,24 @@ jobs:
   test:
     executor: python/default
     steps:
-    - checkout
-    - restore_cache:
-        key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-    - run:
-        name: Install Python deps in a venv
-        command: |
-          python3 -m venv env
-          . env/bin/activate
-          pip install -r requirements.txt
-    - run:
-        name: "Run tests"
-        command: |
-          pip install -r requirements.txt
-          python3 test.py
-    - save_cache:
-        key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-        paths:
-          - "env"
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Python deps in a venv
+          command: |
+            python3 -m venv env
+            . env/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: "Run tests"
+          command: |
+            pip install -r requirements.txt
+            python3 test.py
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "env"
   deploy:
       machine: true
       steps:
