@@ -56,8 +56,8 @@ jobs:
             command: |
               sudo curl https://cli-assets.heroku.com/install.sh | sh
               HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a grasbergerm-simple-flask-app web
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a grasbergerm-simple-flask-app web
+              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a hello-world web
+              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a hello-world web
 workflows:
   lint-test-build-deploy:
     jobs:
