@@ -9,7 +9,7 @@ jobs:
     executor: python/default
     steps:
       - checkout
-      - restore cache:
+      - restore_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
       - run:
           name: Install Python deps in a venv
@@ -21,7 +21,7 @@ jobs:
           name: "Run pylint"
           command: |
             . env/bin/activate
-            pylint app.py
+            pycodestyle app.py
       - save_cache:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
@@ -29,35 +29,35 @@ jobs:
   test:
     executor: python/default
     steps:
-    - checkout
-    - restore_cache:
-        key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-    - run:
-        name: Install Python deps in a venv
-        command: |
-          python3 -m venv env
-          . env/bin/activate
-          pip install -r requirements.txt
-    - run:
-        name: "Run tests"
-        command: |
-          pip install -r requirements.txt
-          python3 test.py
-    - save_cache:
-        key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
-        paths:
-          - "env"
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: Install Python deps in a venv
+          command: |
+            python3 -m venv env
+            . env/bin/activate
+            pip install -r requirements.txt
+      - run:
+          name: "Run tests"
+          command: |
+            pip install -r requirements.txt
+            python3 test.py
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "env"
   deploy:
-      machine: true
-      steps:
-        - checkout
-        - run:
-            name: Build and push Docker image to Heroku
-            command: |
-              sudo curl https://cli-assets.heroku.com/install.sh | sh
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a hello-world web
-              HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a hello-world web
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a smith2eric-hello-world web
+            HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a smith2eric-hello-world web
 workflows:
   lint-test-build-deploy:
     jobs:
