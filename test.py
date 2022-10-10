@@ -14,7 +14,7 @@ class TestApp(unittest.TestCase):
     def test_homepage(self):
         rv = self.app.get("/")
         self.assertTrue(
-            "This is the title of the webpage!" in rv.get_data(as_text=True)
+            "CI/CD" in rv.get_data(as_text=True)
         )
 
 
